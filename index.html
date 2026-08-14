@@ -1,1 +1,1581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HORRORFLIX — Karen</title>
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --red: #e50914;
+    --black: #050505;
+    --dark: #111;
+    --gray: #aaa;
+    --white: #fff;
+}
+
+body {
+    background: #050505;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    background: linear-gradient(to bottom, rgba(0,0,0,.95), transparent);
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: white;
+}
+
+.logo span {
+    color: var(--red);
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    margin-left: 45px;
+}
+
+.nav-links a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.search {
+    background: rgba(0,0,0,.65);
+    border: 1px solid #555;
+    color: white;
+    border-radius: 5px;
+    padding: 9px 12px;
+    width: 190px;
+    outline: none;
+}
+
+.profile {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e50914, #450000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid #fff;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    min-height: 650px;
+    height: 82vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 100px 6% 50px;
+    background-image:
+        linear-gradient(to right,
+            rgba(0,0,0,.95) 0%,
+            rgba(0,0,0,.78) 28%,
+            rgba(0,0,0,.30) 60%,
+            rgba(0,0,0,.75) 100%),
+        linear-gradient(to top,
+            #050505 0%,
+            transparent 25%),
+        url("Panico-7-ganha-sessoes-de-pré-estreia-nesta-quarta-feira-24.jpg");
+
+    background-size: cover;
+    background-position: center 25%;
+}
+
+.hero-content {
+    max-width: 560px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-small {
+    color: #ff2a2a;
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-size: clamp(45px, 7vw, 82px);
+    line-height: .95;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.hero-info {
+    color: #ddd;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.hero-description {
+    color: #ddd;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 0;
+    border-radius: 5px;
+    padding: 13px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-red {
+    background: white;
+    color: black;
+}
+
+.btn-dark {
+    background: rgba(80,80,80,.8);
+    color: white;
+}
+
+.btn:hover {
+    transform: scale(1.03);
+}
+
+/* ================= CATALOGO ================= */
+
+.catalog {
+    padding: 25px 5% 70px;
+}
+
+.section-title {
+    font-size: 25px;
+    margin: 25px 0 18px;
+}
+
+.section-subtitle {
+    color: #999;
+    margin-bottom: 25px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.filter {
+    background: #191919;
+    color: white;
+    border: 1px solid #333;
+    padding: 9px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter.active,
+.filter:hover {
+    background: var(--red);
+    border-color: var(--red);
+}
+
+.movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 18px;
+}
+
+.movie-card {
+    position: relative;
+    border-radius: 7px;
+    overflow: hidden;
+    background: #151515;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.movie-card:hover {
+    transform: scale(1.045);
+    z-index: 5;
+}
+
+.movie-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+}
+
+.movie-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 45px 12px 12px;
+    background: linear-gradient(transparent, rgba(0,0,0,.95));
+}
+
+.movie-title {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.movie-year {
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 7px;
+    margin-top: 9px;
+}
+
+.small-action {
+    border: 0;
+    background: rgba(255,255,255,.13);
+    color: white;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.small-action:hover {
+    background: var(--red);
+}
+
+.fav-active {
+    color: #ffd700;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0,0,0,.86);
+    overflow-y: auto;
+    padding: 35px 15px;
+}
+
+.modal.open {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.modal-box {
+    width: min(950px, 100%);
+    background: #141414;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 70px rgba(0,0,0,.8);
+}
+
+.modal-header {
+    min-height: 380px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: end;
+}
+
+.modal-header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #141414 0%, transparent 65%);
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    z-index: 10;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.75);
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-title-area {
+    position: relative;
+    z-index: 5;
+    padding: 30px;
+}
+
+.modal-title-area h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.modal-content {
+    padding: 5px 30px 35px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0 30px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 20px 0 30px;
+}
+
+.info-box {
+    background: #1d1d1d;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.info-box strong {
+    display: block;
+    color: #888;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.modal-section {
+    margin-top: 30px;
+}
+
+.modal-section h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.modal-section p {
+    color: #ccc;
+    line-height: 1.7;
+}
+
+.cast {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cast span {
+    background: #252525;
+    padding: 9px 12px;
+    border-radius: 5px;
+    color: #ddd;
+}
+
+.rating {
+    display: flex;
+    gap: 6px;
+    margin: 12px 0;
+}
+
+.star {
+    border: 0;
+    background: transparent;
+    font-size: 27px;
+    cursor: pointer;
+    color: #555;
+}
+
+.star.selected {
+    color: #ffd700;
+}
+
+/* ================= COMENTARIOS ================= */
+
+.comment-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.comment-form input {
+    flex: 1;
+    background: #202020;
+    border: 1px solid #333;
+    color: white;
+    border-radius: 6px;
+    padding: 12px;
+    outline: none;
+}
+
+.comment {
+    background: #202020;
+    padding: 13px;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+.comment strong {
+    color: white;
+}
+
+.comment small {
+    display: block;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* ================= FAVORITOS ================= */
+
+.empty {
+    display: none;
+    color: #888;
+    padding: 30px 0;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        height: 60px;
+        padding: 0 18px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .search {
+        width: 125px;
+    }
+
+    .hero {
+        min-height: 600px;
+        height: 75vh;
+        padding: 90px 25px 35px;
+        background-position: 60% center;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .catalog {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .movies {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .modal-title-area h2 {
+        font-size: 31px;
+    }
+
+    .modal-content,
+    .modal-title-area {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        HORROR<span>FLIX</span>
+    </div>
+
+    <div class="nav-links">
+        <a onclick="scrollToSection('inicio')">Início</a>
+        <a onclick="scrollToSection('catalogo')">Filmes</a>
+        <a onclick="showFavorites()">Minha lista</a>
+    </div>
+
+    <div class="nav-right">
+
+        <input
+            id="searchInput"
+            class="search"
+            type="text"
+            placeholder="🔍 Buscar..."
+            oninput="searchMovies()"
+        >
+
+        <div class="profile">K</div>
+
+    </div>
+
+</nav>
+
+<section class="hero" id="inicio">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            • EM DESTAQUE NO HORRORFLIX
+        </div>
+
+        <h1>VOCÊ TEM<br>CORAGEM?</h1>
+
+        <div class="hero-info">
+            Pânico 7 • Terror • Suspense • 2026
+        </div>
+
+        <p class="hero-description">
+            Descubra clássicos, sucessos modernos e pesadelos
+            psicológicos. Escolha um filme, explore os detalhes
+            e monte sua própria lista de terror.
+        </p>
+
+        <div class="buttons">
+
+            <button class="btn btn-red" onclick="openMovie('panico7')">
+                ▶ Ver detalhes
+            </button>
+
+            <button class="btn btn-dark" onclick="showFavorites()">
+                ⭐ Minha lista
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<main class="catalog" id="catalogo">
+
+    <h2 class="section-title">
+        Catálogo de terror
+    </h2>
+
+    <p class="section-subtitle">
+        20 filmes • Escolha seu próximo pesadelo.
+    </p>
+
+    <div class="filters">
+
+        <button class="filter active" onclick="filterMovies('todos', this)">
+            Todos
+        </button>
+
+        <button class="filter" onclick="filterMovies('sobrenatural', this)">
+            Sobrenatural
+        </button>
+
+        <button class="filter" onclick="filterMovies('psicologico', this)">
+            Psicológico
+        </button>
+
+        <button class="filter" onclick="filterMovies('slasher', this)">
+            Slasher
+        </button>
+
+        <button class="filter" onclick="filterMovies('classico', this)">
+            Clássicos
+        </button>
+
+    </div>
+
+    <div class="movies" id="movieGrid"></div>
+
+    <div class="empty" id="emptyMessage">
+        Nenhum filme encontrado. 😭
+    </div>
+
+</main>
+
+<div class="modal" id="movieModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal()">×</button>
+
+        <div class="modal-header" id="modalHeader">
+
+            <div class="modal-title-area">
+
+                <h2 id="modalTitle"></h2>
+
+                <div id="modalBasic"></div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-content">
+
+            <div class="modal-actions">
+
+                <button class="btn btn-red" id="likeButton">
+                    ❤️ Curtir
+                </button>
+
+                <button class="btn btn-dark" id="favoriteButton">
+                    ⭐ Favoritar
+                </button>
+
+                <button class="btn btn-dark" id="watchedButton">
+                    👁️ Assistido
+                </button>
+
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <strong>Ano</strong>
+                    <span id="infoYear"></span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Duração</strong>
+                    <span id="infoDuration"></span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Gênero</strong>
+                    <span id="infoGenre"></span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Classificação</strong>
+                    <span id="infoAge"></span>
+                </div>
+
+                <div class="info-box">
+                    <strong>País</strong>
+                    <span id="infoCountry"></span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Título original</strong>
+                    <span id="infoOriginal"></span>
+                </div>
+
+            </div>
+
+            <section class="modal-section">
+
+                <h3>📖 Sobre o filme</h3>
+
+                <p id="infoSynopsis"></p>
+
+            </section>
+
+            <section class="modal-section">
+
+                <h3>🎬 Produção</h3>
+
+                <p id="infoProduction"></p>
+
+            </section>
+
+            <section class="modal-section">
+
+                <h3>🎭 Elenco principal</h3>
+
+                <div class="cast" id="infoCast"></div>
+
+            </section>
+
+            <section class="modal-section">
+
+                <h3>💡 Curiosidades</h3>
+
+                <p id="infoTrivia"></p>
+
+            </section>
+
+            <section class="modal-section">
+
+                <h3>⭐ Sua avaliação</h3>
+
+                <div class="rating">
+
+                    <button class="star" onclick="rateMovie(1)">★</button>
+                    <button class="star" onclick="rateMovie(2)">★</button>
+                    <button class="star" onclick="rateMovie(3)">★</button>
+                    <button class="star" onclick="rateMovie(4)">★</button>
+                    <button class="star" onclick="rateMovie(5)">★</button>
+
+                </div>
+
+                <span id="ratingText"></span>
+
+            </section>
+
+            <section class="modal-section">
+
+                <h3>💬 Comentários</h3>
+
+                <div class="comment-form">
+
+                    <input
+                        id="commentInput"
+                        placeholder="Escreva seu comentário..."
+                    >
+
+                    <button class="btn btn-red" onclick="addComment()">
+                        Enviar
+                    </button>
+
+                </div>
+
+                <div id="comments"></div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const movies = [
+
+{
+id: "invocacao",
+title: "Invocação do Mal",
+file: "IMG_8319.jpeg",
+year: "2013",
+duration: "112 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "14 anos",
+country: "Estados Unidos",
+original: "The Conjuring",
+director: "James Wan",
+writers: "Chad Hayes e Carey W. Hayes",
+production: "Produção da New Line Cinema e equipe associada ao universo Invocação do Mal.",
+cast: ["Vera Farmiga — Lorraine Warren", "Patrick Wilson — Ed Warren", "Lili Taylor — Carolyn Perron"],
+synopsis: "Um casal de investigadores paranormais é chamado para ajudar uma família que está enfrentando acontecimentos assustadores em sua nova casa.",
+trivia: "O filme é conhecido por estabelecer uma das principais franquias modernas de terror sobrenatural."
+},
+
+{
+id: "it",
+title: "It: A Coisa",
+file: "IMG_8320.jpeg",
+year: "2017",
+duration: "135 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "16 anos",
+country: "Estados Unidos",
+original: "It",
+director: "Andy Muschietti",
+writers: "Chase Palmer, Cary Fukunaga e Gary Dauberman",
+production: "Baseado na obra de Stephen King.",
+cast: ["Bill Skarsgård — Pennywise", "Jaeden Martell — Bill", "Finn Wolfhard — Richie"],
+synopsis: "Um grupo de crianças enfrenta uma entidade sobrenatural que assume a forma de um palhaço e retorna periodicamente para aterrorizar a cidade.",
+trivia: "Pennywise se tornou um dos personagens mais reconhecidos do terror contemporâneo."
+},
+
+{
+id: "freira",
+title: "A Freira",
+file: "IMG_8322.jpeg",
+year: "2018",
+duration: "96 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "16 anos",
+country: "Estados Unidos",
+original: "The Nun",
+director: "Corin Hardy",
+writers: "Gary Dauberman",
+production: "Faz parte do universo de Invocação do Mal.",
+cast: ["Taissa Farmiga — Irmã Irene", "Demián Bichir — Padre Burke", "Bonnie Aarons — Valak"],
+synopsis: "Uma freira e um padre investigam acontecimentos sobrenaturais ligados a uma antiga abadia.",
+trivia: "A personagem Valak apareceu anteriormente em Invocação do Mal 2."
+},
+
+{
+id: "telefone",
+title: "O Telefone Preto",
+file: "IMG_8323.jpeg",
+year: "2021",
+duration: "103 min",
+genre: "Terror • Suspense",
+category: "psicologico",
+age: "16 anos",
+country: "Estados Unidos",
+original: "The Black Phone",
+director: "Scott Derrickson",
+writers: "Scott Derrickson e C. Robert Cargill",
+production: "Baseado no conto de Joe Hill.",
+cast: ["Ethan Hawke — The Grabber", "Mason Thames — Finney", "Madeleine McGraw — Gwen"],
+synopsis: "Um garoto sequestrado encontra um telefone misterioso em um porão e começa a receber ligações de vítimas anteriores do sequestrador.",
+trivia: "O filme mistura terror sobrenatural com suspense e sobrevivência."
+},
+
+{
+id: "megan",
+title: "M3GAN",
+file: "IMG_8325.jpeg",
+year: "2022",
+duration: "102 min",
+genre: "Terror • Ficção científica",
+category: "psicologico",
+age: "12 anos",
+country: "Estados Unidos",
+original: "M3GAN",
+director: "Gerard Johnstone",
+writers: "Akela Cooper",
+production: "Produzido pela Blumhouse e Atomic Monster.",
+cast: ["Allison Williams — Gemma", "Violet McGraw — Cady", "Amie Donald — M3GAN"],
+synopsis: "Uma engenheira cria uma boneca robótica extremamente avançada para acompanhar sua sobrinha, mas a inteligência artificial começa a agir de maneiras inesperadas.",
+trivia: "M3GAN rapidamente se tornou um fenômeno da cultura pop graças ao seu visual e à sua dança."
+},
+
+{
+id: "morte",
+title: "A Morte do Demônio",
+file: "IMG_8326.jpeg",
+year: "1981",
+duration: "85 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "18 anos",
+country: "Estados Unidos",
+original: "The Evil Dead",
+director: "Sam Raimi",
+writers: "Sam Raimi",
+production: "Filme que deu origem a uma importante franquia de terror.",
+cast: ["Bruce Campbell — Ash", "Ellen Sandweiss — Cheryl", "Betsy Baker — Linda"],
+synopsis: "Um grupo de jovens encontra um antigo livro capaz de despertar forças demoníacas em uma cabana isolada.",
+trivia: "O filme se tornou um clássico cult e ajudou a consolidar a carreira de Sam Raimi."
+},
+
+{
+id: "panico7",
+title: "Pânico 7",
+file: "IMG_8329.jpeg",
+year: "2026",
+duration: "A definir",
+genre: "Terror • Slasher • Mistério",
+category: "slasher",
+age: "A definir",
+country: "Estados Unidos",
+original: "Scream 7",
+director: "Kevin Williamson",
+writers: "Kevin Williamson, James Vanderbilt e Guy Busick",
+production: "Produção da Paramount Pictures e Spyglass Media Group.",
+cast: ["Neve Campbell — Sidney Prescott", "Courteney Cox — Gale Weathers", "Isabel May — personagem principal"],
+synopsis: "Ghostface retorna para mais um capítulo da franquia Pânico, trazendo uma nova onda de mistério, perseguição e assassinatos.",
+trivia: "Kevin Williamson, roteirista do primeiro Pânico, assume a direção do sétimo filme."
+},
+
+{
+id: "annabelle",
+title: "Annabelle",
+file: "IMG_8330.jpeg",
+year: "2014",
+duration: "99 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "14 anos",
+country: "Estados Unidos",
+original: "Annabelle",
+director: "John R. Leonetti",
+writers: "Gary Dauberman",
+production: "Spin-off do universo Invocação do Mal.",
+cast: ["Annabelle Wallis — Mia", "Ward Horton — John", "Alfre Woodard — Evelyn"],
+synopsis: "Uma boneca aparentemente comum passa a ser associada a acontecimentos sobrenaturais depois de entrar na vida de um jovem casal.",
+trivia: "A boneca Annabelle foi introduzida ao público em Invocação do Mal."
+},
+
+{
+id: "sorria2",
+title: "Sorria 2",
+file: "IMG_8331.webp",
+year: "2024",
+duration: "127 min",
+genre: "Terror • Psicológico",
+category: "psicologico",
+age: "18 anos",
+country: "Estados Unidos",
+original: "Smile 2",
+director: "Parker Finn",
+writers: "Parker Finn",
+production: "Continuação de Sorria.",
+cast: ["Naomi Scott — Skye Riley", "Rosemarie DeWitt — Elizabeth", "Lukas Gage — Joel"],
+synopsis: "Uma cantora mundialmente famosa começa a enfrentar acontecimentos aterrorizantes enquanto uma presença sobrenatural ameaça tomar conta de sua vida.",
+trivia: "Naomi Scott interpreta a protagonista e o filme amplia a mitologia apresentada no primeiro longa."
+},
+
+{
+id: "exorcista",
+title: "O Exorcista",
+file: "IMG_8332.jpeg",
+year: "1973",
+duration: "132 min",
+genre: "Terror • Sobrenatural",
+category: "classico",
+age: "18 anos",
+country: "Estados Unidos",
+original: "The Exorcist",
+director: "William Friedkin",
+writers: "William Peter Blatty",
+production: "Baseado no romance de William Peter Blatty.",
+cast: ["Linda Blair — Regan", "Ellen Burstyn — Chris", "Max von Sydow — Padre Merrin"],
+synopsis: "Uma menina começa a apresentar comportamentos inexplicáveis e sua mãe procura ajuda diante da possibilidade de uma possessão demoníaca.",
+trivia: "É considerado um dos grandes clássicos do cinema de terror."
+},
+
+{
+id: "iluminado",
+title: "O Iluminado",
+file: "IMG_8333.jpeg",
+year: "1980",
+duration: "146 min",
+genre: "Terror • Psicológico",
+category: "classico",
+age: "16 anos",
+country: "Reino Unido / Estados Unidos",
+original: "The Shining",
+director: "Stanley Kubrick",
+writers: "Stanley Kubrick e Diane Johnson",
+production: "Baseado no romance de Stephen King.",
+cast: ["Jack Nicholson — Jack Torrance", "Shelley Duvall — Wendy", "Danny Lloyd — Danny"],
+synopsis: "Um escritor aceita trabalhar como zelador de um hotel isolado durante o inverno e começa a sofrer uma transformação perturbadora.",
+trivia: "O hotel e os corredores do filme se tornaram imagens icônicas do terror."
+},
+
+{
+id: "hereditario",
+title: "Hereditário",
+file: "IMG_8334.jpeg",
+year: "2018",
+duration: "127 min",
+genre: "Terror • Psicológico",
+category: "psicologico",
+age: "16 anos",
+country: "Estados Unidos",
+original: "Hereditary",
+director: "Ari Aster",
+writers: "Ari Aster",
+production: "Produção da A24.",
+cast: ["Toni Collette — Annie", "Alex Wolff — Peter", "Milly Shapiro — Charlie"],
+synopsis: "Após a morte da matriarca da família, acontecimentos cada vez mais perturbadores começam a revelar segredos do passado.",
+trivia: "O filme é conhecido por sua atmosfera pesada e por explorar trauma familiar e terror psicológico."
+},
+
+{
+id: "eli",
+title: "Eli",
+file: "IMG_8335.jpeg",
+year: "2019",
+duration: "98 min",
+genre: "Terror • Mistério",
+category: "sobrenatural",
+age: "16 anos",
+country: "Estados Unidos",
+original: "Eli",
+director: "Ciarán Foy",
+writers: "Ian Goldberg, Richard Naing e David Chirchirillo",
+production: "Lançado pela Netflix.",
+cast: ["Charlie Shotwell — Eli", "Lili Taylor — Dra. Horn", "Sadie Sink — Haley"],
+synopsis: "Um garoto com uma doença misteriosa é levado para uma clínica isolada onde começa a descobrir que o tratamento pode esconder algo muito mais assustador.",
+trivia: "O filme foi lançado mundialmente pela Netflix."
+},
+
+{
+id: "corra",
+title: "Corra!",
+file: "IMG_8336.jpeg",
+year: "2017",
+duration: "104 min",
+genre: "Terror • Suspense • Sátira",
+category: "psicologico",
+age: "14 anos",
+country: "Estados Unidos",
+original: "Get Out",
+director: "Jordan Peele",
+writers: "Jordan Peele",
+production: "Produção da Blumhouse.",
+cast: ["Daniel Kaluuya — Chris", "Allison Williams — Rose", "Bradley Whitford — Dean"],
+synopsis: "Um jovem visita a família de sua namorada e percebe que há algo profundamente estranho por trás da aparência amigável daquele lugar.",
+trivia: "Jordan Peele venceu o Oscar de Melhor Roteiro Original pelo filme."
+},
+
+{
+id: "silencioso",
+title: "Um Lugar Silencioso",
+file: "IMG_8337.jpeg",
+year: "2018",
+duration: "90 min",
+genre: "Terror • Suspense",
+category: "psicologico",
+age: "14 anos",
+country: "Estados Unidos",
+original: "A Quiet Place",
+director: "John Krasinski",
+writers: "John Krasinski, Bryan Woods e Scott Beck",
+production: "Produção da Paramount Pictures.",
+cast: ["Emily Blunt — Evelyn", "John Krasinski — Lee", "Millicent Simmonds — Regan"],
+synopsis: "Uma família tenta sobreviver em um mundo dominado por criaturas que caçam qualquer pessoa que faça barulho.",
+trivia: "O silêncio é utilizado como um dos principais elementos narrativos do filme."
+},
+
+{
+id: "babadook",
+title: "O Babadook",
+file: "IMG_8338.jpeg",
+year: "2014",
+duration: "94 min",
+genre: "Terror • Psicológico",
+category: "psicologico",
+age: "16 anos",
+country: "Austrália",
+original: "The Babadook",
+director: "Jennifer Kent",
+writers: "Jennifer Kent",
+production: "Produção australiana.",
+cast: ["Essie Davis — Amelia", "Noah Wiseman — Samuel", "Daniel Henshall — Robbie"],
+synopsis: "Uma mãe e seu filho descobrem um misterioso livro infantil que parece trazer uma criatura assustadora para dentro de sua casa.",
+trivia: "O filme é frequentemente interpretado como uma metáfora para luto, trauma e saúde emocional."
+},
+
+{
+id: "rec",
+title: "[REC]",
+file: "IMG_8339.jpeg",
+year: "2007",
+duration: "78 min",
+genre: "Terror • Found Footage",
+category: "sobrenatural",
+age: "16 anos",
+country: "Espanha",
+original: "[REC]",
+director: "Jaume Balagueró e Paco Plaza",
+writers: "Jaume Balagueró, Luiso Berdejo e Paco Plaza",
+production: "Produção espanhola.",
+cast: ["Manuela Velasco — Ángela", "Javier Botet — Tristana Medeiros"],
+synopsis: "Uma repórter e seu cinegrafista acompanham uma equipe de bombeiros durante uma ocorrência em um prédio que acaba sendo completamente isolado.",
+trivia: "O estilo de câmera na mão aumenta a sensação de que os acontecimentos estão sendo registrados em tempo real."
+},
+
+{
+id: "nos",
+title: "Nós",
+file: "IMG_8340.jpeg",
+year: "2019",
+duration: "116 min",
+genre: "Terror • Mistério • Psicológico",
+category: "psicologico",
+age: "16 anos",
+country: "Estados Unidos",
+original: "Us",
+director: "Jordan Peele",
+writers: "Jordan Peele",
+production: "Produção da Monkeypaw Productions e Universal Pictures.",
+cast: ["Lupita Nyong'o — Adelaide", "Winston Duke — Gabe", "Elisabeth Moss — Kitty"],
+synopsis: "Uma família viaja para uma casa de praia e acaba sendo confrontada por versões assustadoras de si mesma.",
+trivia: "O filme utiliza doppelgängers para trabalhar temas de identidade, desigualdade e medo."
+},
+
+{
+id: "chamado3",
+title: "O Chamado 3",
+file: "IMG_8341.jpeg",
+year: "2017",
+duration: "102 min",
+genre: "Terror • Sobrenatural",
+category: "sobrenatural",
+age: "14 anos",
+country: "Estados Unidos",
+original: "Rings",
+director: "F. Javier Gutiérrez",
+writers: "David Loucka, Jacob Estes e Akiva Goldsman",
+production: "Baseado nos personagens criados por Kôji Suzuki.",
+cast: ["Matilda Lutz — Julia", "Alex Roe — Holt", "Johnny Galecki — Gabriel"],
+synopsis: "Uma jovem começa a investigar a misteriosa gravação associada a uma maldição que ameaça sua vida e a de outras pessoas.",
+trivia: "É o terceiro filme da série americana iniciada com O Chamado."
+},
+
+{
+id: "jogos",
+title: "Jogos Mortais",
+file: "IMG_8342.jpeg",
+year: "2004",
+duration: "103 min",
+genre: "Terror • Suspense • Slasher",
+category: "slasher",
+age: "18 anos",
+country: "Estados Unidos",
+original: "Saw",
+director: "James Wan",
+writers: "Leigh Whannell",
+production: "Produção da Twisted Pictures.",
+cast: ["Cary Elwes — Lawrence", "Leigh Whannell — Adam", "Tobin Bell — Jigsaw"],
+synopsis: "Dois homens acordam presos em um banheiro e descobrem que estão envolvidos em um jogo criado por um misterioso assassino conhecido como Jigsaw.",
+trivia: "O filme deu origem a uma das maiores franquias de terror do cinema."
+}
+
+];
+
+let currentMovie = null;
+
+let likes = JSON.parse(localStorage.getItem("horrorLikes") || "{}");
+let favorites = JSON.parse(localStorage.getItem("horrorFavorites") || "{}");
+let watched = JSON.parse(localStorage.getItem("horrorWatched") || "{}");
+let ratings = JSON.parse(localStorage.getItem("horrorRatings") || "{}");
+let commentsData = JSON.parse(localStorage.getItem("horrorComments") || "{}");
+
+
+function renderMovies(list = movies) {
+
+    const grid = document.getElementById("movieGrid");
+    const empty = document.getElementById("emptyMessage");
+
+    grid.innerHTML = "";
+
+    if (!list.length) {
+        empty.style.display = "block";
+        return;
+    }
+
+    empty.style.display = "none";
+
+    list.forEach(movie => {
+
+        const card = document.createElement("div");
+        card.className = "movie-card";
+
+        card.innerHTML = `
+            <img src="${movie.file}" alt="${movie.title}"
+                 onerror="this.style.background='#222';">
+
+            <div class="movie-overlay">
+
+                <div class="movie-title">
+                    ${movie.title}
+                </div>
+
+                <div class="movie-year">
+                    ${movie.year}
+                </div>
+
+                <div class="movie-actions">
+
+                    <button class="small-action"
+                        onclick="event.stopPropagation(); toggleLike('${movie.id}')">
+                        ${likes[movie.id] ? "❤️" : "♡"}
+                    </button>
+
+                    <button class="small-action ${favorites[movie.id] ? "fav-active" : ""}"
+                        onclick="event.stopPropagation(); toggleFavorite('${movie.id}')">
+                        ⭐
+                    </button>
+
+                    <button class="small-action"
+                        onclick="event.stopPropagation(); openMovie('${movie.id}')">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        card.onclick = () => openMovie(movie.id);
+
+        grid.appendChild(card);
+
+    });
+}
+
+
+function openMovie(id) {
+
+    const movie = movies.find(m => m.id === id);
+
+    if (!movie) return;
+
+    currentMovie = movie;
+
+    document.getElementById("modalTitle").textContent = movie.title;
+
+    document.getElementById("modalBasic").innerHTML =
+        `${movie.year} • ${movie.genre}`;
+
+    document.getElementById("modalHeader").style.backgroundImage =
+        `url("${movie.file}")`;
+
+    document.getElementById("infoYear").textContent = movie.year;
+    document.getElementById("infoDuration").textContent = movie.duration;
+    document.getElementById("infoGenre").textContent = movie.genre;
+    document.getElementById("infoAge").textContent = movie.age;
+    document.getElementById("infoCountry").textContent = movie.country;
+    document.getElementById("infoOriginal").textContent = movie.original;
+
+    document.getElementById("infoSynopsis").textContent =
+        movie.synopsis;
+
+    document.getElementById("infoProduction").innerHTML =
+        `<strong>Direção:</strong> ${movie.director}<br><br>
+         <strong>Roteiro:</strong> ${movie.writers}<br><br>
+         ${movie.production}`;
+
+    document.getElementById("infoCast").innerHTML =
+        movie.cast.map(person => `<span>${person}</span>`).join("");
+
+    document.getElementById("infoTrivia").textContent =
+        movie.trivia;
+
+    updateModalButtons();
+    loadRating();
+    loadComments();
+
+    document.getElementById("movieModal").classList.add("open");
+
+    document.body.style.overflow = "hidden";
+}
+
+
+function closeModal() {
+
+    document.getElementById("movieModal").classList.remove("open");
+
+    document.body.style.overflow = "auto";
+
+    currentMovie = null;
+}
+
+
+function toggleLike(id) {
+
+    likes[id] = !likes[id];
+
+    localStorage.setItem(
+        "horrorLikes",
+        JSON.stringify(likes)
+    );
+
+    renderMovies();
+
+    if (currentMovie && currentMovie.id === id) {
+        updateModalButtons();
+    }
+}
+
+
+function toggleFavorite(id) {
+
+    favorites[id] = !favorites[id];
+
+    localStorage.setItem(
+        "horrorFavorites",
+        JSON.stringify(favorites)
+    );
+
+    renderMovies();
+
+    if (currentMovie && currentMovie.id === id) {
+        updateModalButtons();
+    }
+}
+
+
+function showFavorites() {
+
+    const favoriteMovies =
+        movies.filter(movie => favorites[movie.id]);
+
+    renderMovies(favoriteMovies);
+
+    scrollToSection("catalogo");
+}
+
+
+function toggleWatched(id) {
+
+    watched[id] = !watched[id];
+
+    localStorage.setItem(
+        "horrorWatched",
+        JSON.stringify(watched)
+    );
+
+    updateModalButtons();
+}
+
+
+function updateModalButtons() {
+
+    if (!currentMovie) return;
+
+    const id = currentMovie.id;
+
+    document.getElementById("likeButton").textContent =
+        likes[id] ? "❤️ Curtido" : "♡ Curtir";
+
+    document.getElementById("favoriteButton").textContent =
+        favorites[id] ? "⭐ Favoritado" : "☆ Favoritar";
+
+    document.getElementById("watchedButton").textContent =
+        watched[id] ? "✓ Assistido" : "👁️ Assistido";
+
+    document.getElementById("likeButton").onclick =
+        () => toggleLike(id);
+
+    document.getElementById("favoriteButton").onclick =
+        () => toggleFavorite(id);
+
+    document.getElementById("watchedButton").onclick =
+        () => toggleWatched(id);
+}
+
+
+function rateMovie(number) {
+
+    if (!currentMovie) return;
+
+    ratings[currentMovie.id] = number;
+
+    localStorage.setItem(
+        "horrorRatings",
+        JSON.stringify(ratings)
+    );
+
+    loadRating();
+}
+
+
+function loadRating() {
+
+    if (!currentMovie) return;
+
+    const rating = ratings[currentMovie.id] || 0;
+
+    document.querySelectorAll(".star").forEach((star, index) => {
+
+        star.classList.toggle(
+            "selected",
+            index < rating
+        );
+
+    });
+
+    document.getElementById("ratingText").textContent =
+        rating
+        ? `Você deu ${rating} de 5 estrelas.`
+        : "Ainda não avaliado.";
+}
+
+
+function addComment() {
+
+    if (!currentMovie) return;
+
+    const input =
+        document.getElementById("commentInput");
+
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    if (!commentsData[currentMovie.id]) {
+        commentsData[currentMovie.id] = [];
+    }
+
+    commentsData[currentMovie.id].push({
+        text: text,
+        date: new Date().toLocaleString("pt-BR")
+    });
+
+    localStorage.setItem(
+        "horrorComments",
+        JSON.stringify(commentsData)
+    );
+
+    input.value = "";
+
+    loadComments();
+}
+
+
+function loadComments() {
+
+    if (!currentMovie) return;
+
+    const container =
+        document.getElementById("comments");
+
+    const comments =
+        commentsData[currentMovie.id] || [];
+
+    if (!comments.length) {
+
+        container.innerHTML =
+            `<p style="color:#777;margin-top:15px;">
+                Seja a primeira pessoa a comentar. 👻
+             </p>`;
+
+        return;
+    }
+
+    container.innerHTML = comments.map(comment => `
+
+        <div class="comment">
+
+            <strong>Karen</strong>
+
+            <div>${escapeHTML(comment.text)}</div>
+
+            <small>${comment.date}</small>
+
+        </div>
+
+    `).join("");
+}
+
+
+function searchMovies() {
+
+    const term =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const results = movies.filter(movie =>
+        movie.title.toLowerCase().includes(term) ||
+        movie.genre.toLowerCase().includes(term) ||
+        movie.year.toLowerCase().includes(term)
+    );
+
+    renderMovies(results);
+}
+
+
+function filterMovies(category, button) {
+
+    document.querySelectorAll(".filter")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if (category === "todos") {
+        renderMovies(movies);
+        return;
+    }
+
+    renderMovies(
+        movies.filter(movie =>
+            movie.category === category
+        )
+    );
+}
+
+
+function scrollToSection(id) {
+
+    document.getElementById(id)
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+function escapeHTML(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+document.getElementById("movieModal")
+    .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+            closeModal();
+        }
+
+    });
+
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        closeModal();
+    }
+
+});
+
+
+renderMovies();
+
+</script>
+
+</body>
+</html>
