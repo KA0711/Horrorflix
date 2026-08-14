@@ -1,1 +1,1973 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HORRORFLIX — Karen</title>
 
+<style>
+:root{
+  --bg:#070707;
+  --panel:#111;
+  --panel2:#171717;
+  --red:#e50914;
+  --red2:#ff3340;
+  --text:#f4f4f4;
+  --muted:#9b9b9b;
+  --line:#292929;
+}
+
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 75% -10%,#3b0509 0,#110306 24%,var(--bg) 48%);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input,textarea{
+  font:inherit;
+}
+
+/* =========================
+   TOPO
+========================= */
+
+.top{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(7,7,7,.90);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+nav{
+  max-width:1200px;
+  height:70px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:25px;
+  padding:0 20px;
+}
+
+.logo{
+  font-weight:1000;
+  letter-spacing:3px;
+  font-size:21px;
+}
+
+.logo span{
+  color:var(--red);
+}
+
+nav a{
+  color:#ddd;
+  text-decoration:none;
+  font-size:14px;
+}
+
+nav a:hover{
+  color:white;
+}
+
+.nav-spacer{
+  flex:1;
+}
+
+.search{
+  background:#151515;
+  border:1px solid #303030;
+  color:white;
+  border-radius:999px;
+  padding:10px 15px;
+  width:220px;
+  outline:none;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.avatar{
+  width:34px;
+  height:34px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#e50914,#5b0710);
+  color:#fff;
+  font-weight:1000;
+  box-shadow:0 0 0 1px #6f1a1f;
+  overflow:hidden;
+  position:relative;
+}
+
+.avatar img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.avatar span{
+  position:relative;
+  z-index:1;
+}
+
+.chev{
+  color:#aaa;
+  font-size:16px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  max-width:1200px;
+  margin:auto;
+  padding:72px 20px 48px;
+  min-height:510px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  right:-8%;
+  top:5%;
+  width:52%;
+  height:90%;
+  background:
+    radial-gradient(
+      circle,
+      #650c13 0,
+      rgba(35,3,6,.45) 32%,
+      transparent 68%
+    );
+  filter:blur(20px);
+  pointer-events:none;
+}
+
+.hero-copy{
+  max-width:700px;
+  position:relative;
+  z-index:1;
+}
+
+.eyebrow{
+  color:#ff4a53;
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.hero h1{
+  font-size:clamp(42px,7vw,82px);
+  line-height:.9;
+  margin:15px 0;
+}
+
+.hero p{
+  color:#c3c3c3;
+  max-width:600px;
+  font-size:17px;
+  line-height:1.6;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:24px;
+}
+
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:12px 17px;
+  background:var(--red);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:var(--red2);
+}
+
+.btn.secondary{
+  background:#252525;
+}
+
+.netflix-strip{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  align-items:center;
+}
+
+.netflix-strip span{
+  font-size:11px;
+  color:#ccc;
+}
+
+.n-dot{
+  width:4px;
+  height:4px;
+  background:#aaa;
+  border-radius:50%;
+}
+
+/* =========================
+   CATÁLOGO
+========================= */
+
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px 60px;
+}
+
+.section-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin:24px 0 18px;
+}
+
+.section-head h2{
+  margin:0;
+  font-size:25px;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.chips{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding-bottom:8px;
+}
+
+.chip{
+  border:1px solid #333;
+  background:#111;
+  color:#bbb;
+  border-radius:999px;
+  padding:8px 13px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.chip.active,
+.chip:hover{
+  background:#2a0709;
+  border-color:#8d151b;
+  color:#fff;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:linear-gradient(180deg,#171717,#0f0f0f);
+  border:1px solid #242424;
+  border-radius:13px;
+  overflow:hidden;
+  transition:.22s transform,.22s border-color;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#5a171b;
+}
+
+.poster{
+  aspect-ratio:2/3;
+  position:relative;
+  overflow:hidden;
+  background:#17090b;
+}
+
+.poster img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.3s;
+}
+
+.card:hover .poster img{
+  transform:scale(1.04);
+}
+
+.poster:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(0,0,0,.9),
+      transparent 58%
+    );
+  pointer-events:none;
+}
+
+.poster-title{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  right:14px;
+  z-index:2;
+  font-size:18px;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  text-shadow:0 3px 15px #000;
+}
+
+.badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:3;
+  background:#080808cc;
+  border:1px solid #444;
+  padding:5px 8px;
+  border-radius:99px;
+  font-size:11px;
+}
+
+.card-body{
+  padding:12px;
+}
+
+.card-meta{
+  color:#999;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.card-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+}
+
+.heart{
+  border:0;
+  background:none;
+  color:#aaa;
+  cursor:pointer;
+  font-size:21px;
+}
+
+.heart.liked{
+  color:#ff3340;
+}
+
+.stars{
+  color:#e9b949;
+  font-size:12px;
+}
+
+/* =========================
+   LISTAS
+========================= */
+
+.empty{
+  padding:40px;
+  text-align:center;
+  border:1px dashed #333;
+  border-radius:14px;
+  color:#888;
+  display:none;
+}
+
+.lists{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:35px;
+}
+
+.list-panel{
+  background:#101010;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:20px;
+  min-height:130px;
+}
+
+.list-items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.mini{
+  background:#191919;
+  border:1px solid #303030;
+  border-radius:8px;
+  padding:8px 10px;
+  color:#ddd;
+  font-size:12px;
+  cursor:pointer;
+}
+
+/* =========================
+   MODAL DO FILME
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(850px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#111;
+  border:1px solid #333;
+  border-radius:18px;
+  box-shadow:0 30px 100px #000;
+}
+
+.modal-top{
+  height:300px;
+  padding:25px;
+  display:flex;
+  align-items:end;
+  position:relative;
+  overflow:hidden;
+  background:#17090b;
+}
+
+.modal-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.48;
+}
+
+.modal-top:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      0deg,
+      #111,
+      rgba(0,0,0,.1) 80%
+    );
+}
+
+.modal-title{
+  position:relative;
+  z-index:2;
+}
+
+.modal-title h2{
+  font-size:40px;
+  margin:0;
+}
+
+.modal-title div{
+  color:#ccc;
+  margin-bottom:7px;
+}
+
+.close{
+  position:absolute;
+  z-index:5;
+  right:15px;
+  top:15px;
+  border:1px solid #555;
+  background:#111;
+  color:#fff;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.modal-content{
+  padding:22px;
+}
+
+.facts{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.fact{
+  background:#1a1a1a;
+  border:1px solid #2b2b2b;
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:12px;
+  color:#bbb;
+}
+
+.modal-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+
+.rating{
+  display:flex;
+  gap:5px;
+  margin:10px 0;
+}
+
+.rating button{
+  background:none;
+  border:0;
+  color:#555;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.rating button.on{
+  color:#e9b949;
+}
+
+.comment-box{
+  margin-top:25px;
+  border-top:1px solid #2b2b2b;
+  padding-top:20px;
+}
+
+.comment-box textarea{
+  width:100%;
+  min-height:90px;
+  background:#0b0b0b;
+  border:1px solid #333;
+  border-radius:10px;
+  color:white;
+  padding:12px;
+  resize:vertical;
+  outline:none;
+}
+
+.comment{
+  background:#191919;
+  border:1px solid #292929;
+  padding:12px;
+  border-radius:10px;
+  margin-top:9px;
+}
+
+.comment small{
+  color:#777;
+}
+
+/* =========================
+   RODAPÉ
+========================= */
+
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 20px;
+  color:#777;
+  text-align:center;
+  font-size:12px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:700px){
+
+  nav{
+    gap:12px;
+  }
+
+  nav a{
+    display:none;
+  }
+
+  .search{
+    width:130px;
+  }
+
+  .profile span:not(.avatar-text){
+    display:none;
+  }
+
+  .hero{
+    padding-top:45px;
+  }
+
+  .lists{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .poster-title{
+    font-size:14px;
+  }
+
+  .modal-title h2{
+    font-size:30px;
+  }
+
+  .modal-top{
+    height:250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     MENU
+========================= -->
+
+<header class="top">
+<nav>
+
+<div class="logo">
+HORROR<span>FLIX</span>
+</div>
+
+<a href="#inicio">Início</a>
+<a href="#catalogo">Filmes</a>
+<a href="#listas">Minha lista</a>
+
+<div class="nav-spacer"></div>
+
+<input
+  id="search"
+  class="search"
+  placeholder="🔎 Buscar..."
+>
+
+<div class="profile">
+
+<div class="avatar">
+<img
+  src="perfil.jpeg"
+  alt="Foto de perfil da Karen"
+  onerror="this.style.display='none'"
+>
+<span class="avatar-text">K</span>
+</div>
+
+<span>Karen</span>
+
+<span class="chev">⌄</span>
+
+</div>
+
+</nav>
+</header>
+
+
+<main id="inicio">
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+<div class="hero-copy">
+
+<div class="eyebrow">
+O lado sombrio do cinema
+</div>
+
+<h1>
+VOCÊ TEM<br>
+<span style="color:#e50914">
+CORAGEM?
+</span>
+</h1>
+
+<p>
+Descubra clássicos, sucessos modernos e pesadelos psicológicos.
+Escolha um filme, explore os detalhes e monte sua própria lista de terror.
+</p>
+
+<div class="netflix-strip">
+
+<b style="color:#e50914;font-size:22px">
+N
+</b>
+
+<span>Filmes de terror</span>
+
+<i class="n-dot"></i>
+
+<span>20 títulos</span>
+
+<i class="n-dot"></i>
+
+<span>16+</span>
+
+</div>
+
+<div class="actions">
+
+<button
+  class="btn"
+  onclick="scrollToCatalog()"
+>
+🎬 Explorar filmes
+</button>
+
+<button
+  class="btn secondary"
+  onclick="showFavorites()"
+>
+⭐ Meus favoritos
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CATÁLOGO
+========================= -->
+
+<section class="wrap" id="catalogo">
+
+<div class="section-head">
+
+<div>
+
+<h2>
+Catálogo de terror
+</h2>
+
+<div
+  class="muted"
+  id="count"
+></div>
+
+</div>
+
+</div>
+
+<div
+  class="chips"
+  id="chips"
+></div>
+
+<div
+  class="grid"
+  id="grid"
+></div>
+
+<div
+  class="empty"
+  id="empty"
+>
+Nenhum filme encontrado.
+Tente outro nome ou gênero.
+</div>
+
+</section>
+
+
+<!-- =========================
+     MINHA EXPERIÊNCIA
+========================= -->
+
+<section class="wrap" id="listas">
+
+<div class="section-head">
+
+<div>
+
+<h2>
+Minha experiência
+</h2>
+
+<div class="muted">
+Salvo automaticamente neste navegador.
+</div>
+
+</div>
+
+</div>
+
+<div class="lists">
+
+<div class="list-panel">
+
+<b>⭐ Favoritos</b>
+
+<div
+  class="list-items"
+  id="favList"
+></div>
+
+</div>
+
+
+<div class="list-panel">
+
+<b>👁️ Assistidos</b>
+
+<div
+  class="list-items"
+  id="watchedList"
+></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PERFIL
+========================= -->
+
+<section
+  class="wrap"
+  id="perfil"
+>
+
+<div
+  class="list-panel"
+  style="display:flex;align-items:center;gap:18px"
+>
+
+<div
+  class="avatar"
+  style="width:62px;height:62px;font-size:25px;border-radius:10px"
+>
+
+<img
+  src="perfil.jpeg"
+  alt="Foto de perfil da Karen"
+  onerror="this.style.display='none'"
+>
+
+<span class="avatar-text">
+K
+</span>
+
+</div>
+
+<div>
+
+<div class="muted">
+Perfil
+</div>
+
+<h2 style="margin:3px 0">
+Karen
+</h2>
+
+<div class="muted">
+Sua experiência no HORRORFLIX é salva neste navegador.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+HORRORFLIX • Um catálogo experimental de filmes de terror
+<br><br>
+Seus dados ficam salvos no navegador.
+
+</footer>
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="modal"
+  onclick="if(event.target===this)closeModal()"
+>
+
+<div class="modal-box">
+
+<div
+  class="modal-top"
+  id="modalTop"
+>
+
+<img
+  id="modalImage"
+  class="modal-image"
+  alt=""
+>
+
+<button
+  class="close"
+  onclick="closeModal()"
+>
+×
+</button>
+
+<div class="modal-title">
+
+<div id="modalGenre"></div>
+
+<h2 id="modalName">
+</h2>
+
+</div>
+
+</div>
+
+
+<div class="modal-content">
+
+<div
+  class="facts"
+  id="facts"
+></div>
+
+<p
+  id="synopsis"
+  style="color:#c4c4c4;line-height:1.7"
+></p>
+
+
+<div class="modal-actions">
+
+<button
+  class="btn"
+  id="favBtn"
+></button>
+
+<button
+  class="btn secondary"
+  id="watchedBtn"
+></button>
+
+</div>
+
+
+<div>
+
+<b>
+Sua nota
+</b>
+
+<div
+  class="rating"
+  id="rating"
+></div>
+
+</div>
+
+
+<div class="comment-box">
+
+<h3>
+💬 Comentários
+</h3>
+
+<textarea
+  id="commentText"
+  placeholder="O que você achou desse filme?"
+></textarea>
+
+<button
+  class="btn"
+  style="margin-top:9px"
+  onclick="addComment()"
+>
+Publicar comentário
+</button>
+
+<div
+  id="comments"
+></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   FILMES
+===================================================== */
+
+const movies = [
+
+{
+  name:"Invocação do Mal",
+  year:"2013",
+  genre:"Sobrenatural",
+  director:"James Wan",
+  duration:"1h 52min",
+  synopsis:"Um casal de investigadores paranormais ajuda uma família que enfrenta acontecimentos aterrorizantes em sua casa.",
+  image:"IMG_8319.jpeg"
+},
+
+{
+  name:"It: A Coisa",
+  year:"2017",
+  genre:"Terror • Monstro",
+  director:"Andy Muschietti",
+  duration:"2h 15min",
+  synopsis:"Um grupo de crianças enfrenta uma entidade que assume a forma do pior medo de cada vítima.",
+  image:"IMG_8320.jpeg"
+},
+
+{
+  name:"Pânico 7",
+  year:"2026",
+  genre:"Slasher • Mistério",
+  director:"Kevin Williamson",
+  duration:"1h 54min",
+  synopsis:"Um novo Ghostface surge e coloca seus alvos no centro de uma nova sequência de acontecimentos aterrorizantes.",
+  image:"IMG_8329.jpeg"
+},
+
+{
+  name:"A Freira",
+  year:"2018",
+  genre:"Possessão",
+  director:"Corin Hardy",
+  duration:"1h 36min",
+  synopsis:"Uma investigação em um convento isolado revela uma presença demoníaca que desafia a fé de seus visitantes.",
+  image:"IMG_8322.jpeg"
+},
+
+{
+  name:"O Telefone Preto",
+  year:"2021",
+  genre:"Terror • Suspense",
+  director:"Scott Derrickson",
+  duration:"1h 43min",
+  synopsis:"Um garoto sequestrado encontra uma maneira inesperada de tentar escapar de seu captor.",
+  image:"IMG_8323.jpeg"
+},
+
+{
+  name:"M3GAN",
+  year:"2022",
+  genre:"Tecnológico",
+  director:"Gerard Johnstone",
+  duration:"1h 42min",
+  synopsis:"Uma boneca robótica criada para cuidar de uma criança começa a ultrapassar limites que ninguém imaginava.",
+  image:"IMG_8325.jpeg"
+},
+
+{
+  name:"A Morte do Demônio",
+  year:"2013",
+  genre:"Possessão",
+  director:"Fede Álvarez",
+  duration:"1h 31min",
+  synopsis:"Uma estadia em uma cabana isolada desperta uma força sobrenatural que transforma a noite em um pesadelo.",
+  image:"IMG_8326.jpeg"
+},
+
+{
+  name:"Annabelle",
+  year:"2014",
+  genre:"Sobrenatural",
+  director:"John R. Leonetti",
+  duration:"1h 39min",
+  synopsis:"Uma boneca antiga se torna o centro de acontecimentos sobrenaturais dentro da casa de um jovem casal.",
+  image:"IMG_8330.jpeg"
+},
+
+{
+  name:"Sorria 2",
+  year:"2024",
+  genre:"Psicológico • Sobrenatural",
+  director:"Parker Finn",
+  duration:"2h 07min",
+  synopsis:"A cantora Skye Riley começa a viver acontecimentos aterrorizantes e inexplicáveis enquanto se prepara para uma nova turnê.",
+  image:"IMG_8331.webp"
+},
+
+{
+  name:"O Exorcista",
+  year:"1973",
+  genre:"Possessão • Clássico",
+  director:"William Friedkin",
+  duration:"2h 12min",
+  synopsis:"Uma família procura ajuda quando uma jovem passa por mudanças assustadoras e aparentemente inexplicáveis.",
+  image:"IMG_8332.jpeg"
+},
+
+{
+  name:"O Iluminado",
+  year:"1980",
+  genre:"Psicológico • Clássico",
+  director:"Stanley Kubrick",
+  duration:"2h 26min",
+  synopsis:"Um escritor e sua família passam o inverno em um hotel isolado, onde forças perturbadoras começam a tomar conta do lugar.",
+  image:"IMG_8333.jpeg"
+},
+
+{
+  name:"Hereditário",
+  year:"2018",
+  genre:"Psicológico",
+  director:"Ari Aster",
+  duration:"2h 07min",
+  synopsis:"Após a morte de uma matriarca, uma família começa a descobrir segredos cada vez mais sombrios sobre seu passado.",
+  image:"IMG_8334.jpeg"
+},
+
+{
+  name:"Eli",
+  year:"2019",
+  genre:"Terror • Sobrenatural",
+  director:"Ciarán Foy",
+  duration:"1h 38min",
+  synopsis:"Um garoto chega a uma clínica isolada para um tratamento experimental e começa a descobrir que há algo muito errado naquele lugar.",
+  image:"IMG_8335.jpeg"
+},
+
+{
+  name:"Corra!",
+  year:"2017",
+  genre:"Psicológico • Suspense",
+  director:"Jordan Peele",
+  duration:"1h 44min",
+  synopsis:"Uma visita à família da namorada começa de forma desconfortável e se transforma em uma experiência cada vez mais inquietante.",
+  image:"IMG_8336.jpeg"
+},
+
+{
+  name:"Um Lugar Silencioso",
+  year:"2018",
+  genre:"Criaturas • Suspense",
+  director:"John Krasinski",
+  duration:"1h 30min",
+  synopsis:"Uma família precisa viver em silêncio para sobreviver a criaturas que caçam pelo som.",
+  image:"IMG_8337.jpeg"
+},
+
+{
+  name:"O Babadook",
+  year:"2014",
+  genre:"Psicológico",
+  director:"Jennifer Kent",
+  duration:"1h 34min",
+  synopsis:"Um livro infantil misterioso parece trazer para dentro de casa uma presença cada vez mais ameaçadora.",
+  image:"IMG_8338.jpeg"
+},
+
+{
+  name:"REC",
+  year:"2007",
+  genre:"Found Footage",
+  director:"Jaume Balagueró e Paco Plaza",
+  duration:"1h 18min",
+  synopsis:"Uma equipe de reportagem acompanha uma ocorrência em um prédio e acaba presa em uma situação inexplicável.",
+  image:"IMG_8339.jpeg"
+},
+
+{
+  name:"Nós",
+  year:"2019",
+  genre:"Psicológico",
+  director:"Jordan Peele",
+  duration:"1h 56min",
+  synopsis:"Uma família encontra versões perturbadoras de si mesma durante uma viagem que deveria ser tranquila.",
+  image:"IMG_8340.jpeg"
+},
+
+{
+  name:"O Chamado 3",
+  year:"2017",
+  genre:"Sobrenatural • Suspense",
+  director:"F. Javier Gutiérrez",
+  duration:"1h 42min",
+  synopsis:"Uma jovem se envolve com a lenda de uma fita amaldiçoada que ameaça tirar a vida de quem a assiste.",
+  image:"IMG_8341.jpeg"
+},
+
+{
+  name:"Jogos Mortais: Jigsaw",
+  year:"2017",
+  genre:"Thriller • Terror",
+  director:"Michael Spierig e Peter Spierig",
+  duration:"1h 32min",
+  synopsis:"Uma nova série de jogos macabros faz a polícia questionar se o legado de Jigsaw realmente terminou.",
+  image:"IMG_8342.jpeg"
+}
+
+];
+
+
+/* =====================================================
+   ESTADO SALVO
+===================================================== */
+
+let activeGenre = "Todos";
+let selected = null;
+
+const state = JSON.parse(
+  localStorage.getItem("horrorflix") ||
+  '{"liked":[],"favorites":[],"watched":[],"ratings":{},"comments":{}}'
+);
+
+function save(){
+  localStorage.setItem(
+    "horrorflix",
+    JSON.stringify(state)
+  );
+}
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+const chips = document.getElementById("chips");
+const count = document.getElementById("count");
+const search = document.getElementById("search");
+
+const modal = document.getElementById("modal");
+const modalTop = document.getElementById("modalTop");
+const modalImage = document.getElementById("modalImage");
+const modalName = document.getElementById("modalName");
+const modalGenre = document.getElementById("modalGenre");
+const facts = document.getElementById("facts");
+const synopsis = document.getElementById("synopsis");
+
+const favBtn = document.getElementById("favBtn");
+const watchedBtn = document.getElementById("watchedBtn");
+
+const rating = document.getElementById("rating");
+
+const commentText =
+  document.getElementById("commentText");
+
+const comments =
+  document.getElementById("comments");
+
+const favList =
+  document.getElementById("favList");
+
+const watchedList =
+  document.getElementById("watchedList");
+
+
+/* =====================================================
+   GÊNEROS
+===================================================== */
+
+function genres(){
+
+  const result = new Set();
+
+  movies.forEach(movie => {
+
+    movie.genre
+      .split(" • ")
+      .forEach(g => result.add(g));
+
+  });
+
+  return [
+    "Todos",
+    ...result
+  ];
+}
+
+
+function renderChips(){
+
+  chips.innerHTML =
+    genres().map(g => `
+
+      <button
+        class="chip ${g === activeGenre ? "active" : ""}"
+        onclick="setGenre('${g.replaceAll("'","\\'")}')"
+      >
+        ${g}
+      </button>
+
+    `).join("");
+
+}
+
+
+function setGenre(g){
+
+  activeGenre = g;
+
+  renderChips();
+
+  render();
+
+}
+
+
+/* =====================================================
+   FILTRO
+===================================================== */
+
+function filtered(){
+
+  const q =
+    search.value
+      .toLowerCase()
+      .trim();
+
+  return movies.filter(movie => {
+
+    const genreOK =
+      activeGenre === "Todos" ||
+      movie.genre.includes(activeGenre);
+
+    const searchOK =
+      !q ||
+      movie.name.toLowerCase().includes(q) ||
+      movie.director.toLowerCase().includes(q);
+
+    return genreOK && searchOK;
+
+  });
+
+}
+
+
+/* =====================================================
+   CATÁLOGO
+===================================================== */
+
+function render(){
+
+  const list = filtered();
+
+  count.textContent =
+    `${list.length} filmes • ${state.favorites.length} favoritos`;
+
+  grid.innerHTML = list.map(movie => {
+
+    const id = movies.indexOf(movie);
+
+    const stars =
+      Math.round(state.ratings[id] || 4);
+
+    const isLiked =
+      state.liked.includes(id);
+
+    return `
+
+      <article
+        class="card"
+        onclick="openMovie(${id})"
+      >
+
+        <div class="poster">
+
+          <img
+            src="${movie.image}"
+            alt="Pôster de ${movie.name}"
+            loading="lazy"
+          >
+
+          <span class="badge">
+            ${movie.year}
+          </span>
+
+          <div class="poster-title">
+            ${movie.name}
+          </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+          <b>
+            ${movie.name}
+          </b>
+
+          <div class="card-meta">
+            ${movie.genre} • ${movie.duration}
+          </div>
+
+          <div class="card-row">
+
+            <span class="stars">
+              ${"★".repeat(stars)}
+              ${"☆".repeat(5-stars)}
+            </span>
+
+            <button
+              class="heart ${isLiked ? "liked" : ""}"
+              onclick="event.stopPropagation();toggleLike(${id})"
+            >
+              ${isLiked ? "♥" : "♡"}
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }).join("");
+
+
+  empty.style.display =
+    list.length ? "none" : "block";
+
+  renderLists();
+
+}
+
+
+/* =====================================================
+   LISTAS
+===================================================== */
+
+function renderLists(){
+
+  if(state.favorites.length){
+
+    favList.innerHTML =
+      state.favorites.map(id => `
+
+        <button
+          class="mini"
+          onclick="openMovie(${id})"
+        >
+          ${movies[id].name}
+        </button>
+
+      `).join("");
+
+  }else{
+
+    favList.innerHTML =
+      "<span class='muted'>Nenhum favorito ainda.</span>";
+
+  }
+
+
+  if(state.watched.length){
+
+    watchedList.innerHTML =
+      state.watched.map(id => `
+
+        <button
+          class="mini"
+          onclick="openMovie(${id})"
+        >
+          ${movies[id].name}
+        </button>
+
+      `).join("");
+
+  }else{
+
+    watchedList.innerHTML =
+      "<span class='muted'>Nenhum filme marcado como assistido.</span>";
+
+  }
+
+}
+
+
+/* =====================================================
+   CURTIR
+===================================================== */
+
+function toggleLike(id){
+
+  if(state.liked.includes(id)){
+
+    state.liked =
+      state.liked.filter(
+        x => x !== id
+      );
+
+  }else{
+
+    state.liked.push(id);
+
+  }
+
+  save();
+
+  render();
+
+}
+
+
+/* =====================================================
+   FAVORITO
+===================================================== */
+
+function toggleFavorite(){
+
+  const id = selected;
+
+  if(state.favorites.includes(id)){
+
+    state.favorites =
+      state.favorites.filter(
+        x => x !== id
+      );
+
+  }else{
+
+    state.favorites.push(id);
+
+  }
+
+  save();
+
+  openMovie(id);
+
+  render();
+
+}
+
+
+/* =====================================================
+   ASSISTIDO
+===================================================== */
+
+function toggleWatched(){
+
+  const id = selected;
+
+  if(state.watched.includes(id)){
+
+    state.watched =
+      state.watched.filter(
+        x => x !== id
+      );
+
+  }else{
+
+    state.watched.push(id);
+
+  }
+
+  save();
+
+  openMovie(id);
+
+  render();
+
+}
+
+
+/* =====================================================
+   ABRIR FILME
+===================================================== */
+
+function openMovie(id){
+
+  selected = id;
+
+  const movie = movies[id];
+
+  modal.classList.add("show");
+
+  modalImage.src =
+    movie.image;
+
+  modalImage.alt =
+    "Pôster de " + movie.name;
+
+  modalGenre.textContent =
+    movie.genre;
+
+  modalName.textContent =
+    movie.name;
+
+  facts.innerHTML = `
+
+    <span class="fact">
+      ${movie.year}
+    </span>
+
+    <span class="fact">
+      ${movie.duration}
+    </span>
+
+    <span class="fact">
+      Direção: ${movie.director}
+    </span>
+
+  `;
+
+  synopsis.textContent =
+    movie.synopsis;
+
+
+  favBtn.textContent =
+    state.favorites.includes(id)
+      ? "★ Remover dos favoritos"
+      : "☆ Favoritar";
+
+
+  watchedBtn.textContent =
+    state.watched.includes(id)
+      ? "✓ Assistido"
+      : "○ Marcar como assistido";
+
+
+  renderRating();
+
+  renderComments();
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function closeModal(){
+
+  modal.classList.remove("show");
+
+}
+
+
+/* =====================================================
+   AVALIAÇÃO
+===================================================== */
+
+function renderRating(){
+
+  const current =
+    state.ratings[selected] || 0;
+
+  rating.innerHTML =
+    [1,2,3,4,5].map(n => `
+
+      <button
+        class="${current >= n ? "on" : ""}"
+        onclick="rate(${n})"
+      >
+        ★
+      </button>
+
+    `).join("");
+
+}
+
+
+function rate(n){
+
+  state.ratings[selected] = n;
+
+  save();
+
+  renderRating();
+
+  render();
+
+}
+
+
+/* =====================================================
+   COMENTÁRIOS
+===================================================== */
+
+function addComment(){
+
+  const text =
+    commentText.value.trim();
+
+  if(!text){
+    return;
+  }
+
+  if(!state.comments[selected]){
+    state.comments[selected] = [];
+  }
+
+  state.comments[selected].unshift({
+
+    text:text,
+
+    date:new Date()
+      .toLocaleString("pt-BR")
+
+  });
+
+  commentText.value = "";
+
+  save();
+
+  renderComments();
+
+}
+
+
+function renderComments(){
+
+  const list =
+    state.comments[selected] || [];
+
+  if(!list.length){
+
+    comments.innerHTML =
+      "<p class='muted'>Seja a primeira pessoa a comentar.</p>";
+
+    return;
+
+  }
+
+  comments.innerHTML =
+    list.map(comment => `
+
+      <div class="comment">
+
+        ${escapeHtml(comment.text)}
+
+        <br>
+
+        <small>
+          ${comment.date}
+        </small>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function escapeHtml(text){
+
+  return text.replace(
+    /[&<>"']/g,
+    character => ({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+
+    }[character])
+
+  );
+
+}
+
+
+/* =====================================================
+   FAVORITOS
+===================================================== */
+
+function showFavorites(){
+
+  search.value = "";
+
+  activeGenre = "Todos";
+
+  renderChips();
+
+
+  const list =
+    state.favorites.map(
+      id => movies[id]
+    );
+
+
+  if(!list.length){
+
+    grid.innerHTML = `
+
+      <div
+        class="empty"
+        style="display:block;grid-column:1/-1"
+      >
+        Você ainda não favoritou nenhum filme.
+      </div>
+
+    `;
+
+  }else{
+
+    grid.innerHTML =
+      list.map(movie => {
+
+        const id =
+          movies.indexOf(movie);
+
+        return `
+
+          <article
+            class="card"
+            onclick="openMovie(${id})"
+          >
+
+            <div class="poster">
+
+              <img
+                src="${movie.image}"
+                alt="Pôster de ${movie.name}"
+              >
+
+              <span class="badge">
+                ${movie.year}
+              </span>
+
+              <div class="poster-title">
+                ${movie.name}
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <b>
+                ${movie.name}
+              </b>
+
+              <div class="card-meta">
+                ${movie.genre}
+              </div>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }).join("");
+
+  }
+
+
+  document
+    .querySelector("#catalogo")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   ROLAR PARA CATÁLOGO
+===================================================== */
+
+function scrollToCatalog(){
+
+  document
+    .querySelector("#catalogo")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   EVENTOS
+===================================================== */
+
+favBtn.onclick =
+  toggleFavorite;
+
+watchedBtn.onclick =
+  toggleWatched;
+
+search.addEventListener(
+  "input",
+  render
+);
+
+
+/* =====================================================
+   INICIAR SITE
+===================================================== */
+
+renderChips();
+
+render();
+
+</script>
+
+</body>
+</html>
